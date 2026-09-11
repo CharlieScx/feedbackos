@@ -3,7 +3,7 @@
 - [x] 1.1 从各项目官方发布源核验 Next.js、React、TypeScript、Ant Design、FastAPI、Pydantic、SQLAlchemy、Alembic、PostgreSQL、Garage、Polars 和 openpyxl 的当前稳定版本，记录版本与选择理由，并验证记录中的版本能被对应包管理器解析
 - [x] 1.2 初始化 `apps/web`、`apps/api`、`packages/contracts` 和 `infra` 的最小目录、运行时版本文件与锁文件，并验证全新检出后依赖安装不产生未锁定版本漂移
 - [x] 1.3 配置 PostgreSQL 与 Garage 的 Compose 服务、健康检查、命名卷和私有开发 bucket 初始化，并验证一次命令启动后两个服务均达到 healthy
-- [ ] 1.4 增加分层配置、`.env.example`、密钥校验和统一的开发/迁移/测试命令，并验证缺失生产密钥时快速失败且示例文件不包含真实凭据
+- [x] 1.4 增加分层配置、`.env.example`、密钥校验和统一的开发/迁移/测试命令，并验证缺失生产密钥时快速失败且示例文件不包含真实凭据
 - [ ] 1.5 建立 Next.js 与 FastAPI 健康检查及 Web 同源 `/api` 代理，并通过浏览器侧请求验证 API 可达且不需要跨域 Cookie 配置
 
 ## 2. 建立 UI 主题与 API 契约
