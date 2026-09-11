@@ -1,0 +1,30 @@
+{
+  "name": "feedbackos",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=24.0.0 <25.0.0"
+  },
+  "scripts": {
+    "config:check": "uv run --project apps/api python -m feedbackos_api.config",
+    "dev": "pnpm run infra:up && pnpm run config:check && pnpm --parallel --filter @feedbackos/api --filter @feedbackos/web run dev",
+    "dev:api": "pnpm --filter @feedbackos/api dev",
+    "dev:web": "pnpm --filter @feedbackos/web dev",
+    "infra:up": "docker compose up -d --wait",
+    "infra:down": "docker compose down",
+    "infra:status": "docker compose ps",
+    "db:migrate": "uv run --project apps/api alembic -c apps/api/alembic.ini upgrade head",
+    "db:current": "uv run --project apps/api alembic -c apps/api/alembic.ini current",
+    "build:web": "pnpm --filter @feedbackos/web build",
+    "lint": "pnpm run lint:api && pnpm run lint:web",
+    "lint:api": "uv run --project apps/api ruff check --config apps/api/pyproject.toml apps/api",
+    "lint:web": "pnpm --filter @feedbackos/web lint",
+    "typecheck": "pnpm run typecheck:api && pnpm run typecheck:web",
+    "typecheck:api": "uv run --project apps/api mypy --config-file apps/api/pyproject.toml apps/api/src",
+    "typecheck:web": "pnpm --filter @feedbackos/web typecheck",
+    "test": "pnpm run test:api && pnpm run test:web",
+    "test:api": "uv run --project apps/api pytest -c apps/api/pyproject.toml apps/api/tests",
+    "test:web": "pnpm --filter @feedbackos/web test"
+  }
+}
