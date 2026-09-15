@@ -1,0 +1,30 @@
+.pageHeader,
+.sectionHeading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.pageHeader :global(.ant-typography),
+.sectionHeading :global(.ant-typography) {
+  margin-bottom: 0;
+}
+
+.notice {
+  margin: var(--space-lg) 0 var(--space-xl);
+}
+
+.sectionHeading {
+  margin-bottom: var(--space-md);
+}
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, calc(var(--space-xl) * 10)), 1fr)
+  );
+  gap: var(--space-lg);
+}

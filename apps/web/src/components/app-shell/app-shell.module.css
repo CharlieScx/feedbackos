@@ -1,0 +1,73 @@
+.shell {
+  min-height: 100dvh;
+  background: var(--color-canvas);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-xl);
+  background: var(--color-layout);
+  box-shadow: var(--shadow-secondary);
+}
+
+.brand,
+.navigation,
+.headerActions,
+.contextBar {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  gap: var(--space-sm);
+  color: var(--color-text);
+  font-size: var(--font-size-large);
+  text-decoration: none;
+}
+
+.brandMark {
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+}
+
+.navigation {
+  flex: 1;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.navigationLink,
+.secondaryLink {
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.navigationLink {
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.navigationLink[data-active="true"] {
+  background: var(--fo-color-primary-bg);
+  color: var(--color-primary);
+}
+
+.headerActions {
+  gap: var(--space-sm);
+}
+
+.contextBar {
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-xl);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+}
+
+.main {
+  padding: var(--space-xl);
+}

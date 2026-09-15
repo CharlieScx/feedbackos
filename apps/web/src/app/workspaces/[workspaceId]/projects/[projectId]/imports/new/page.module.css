@@ -1,0 +1,57 @@
+.pageHeader,
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.pageHeader {
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.pageHeader :global(.ant-typography) {
+  margin-bottom: var(--space-xs);
+}
+
+.eyebrow {
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xs);
+}
+
+.steps {
+  margin: var(--space-xl) 0;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--color-layout);
+  box-shadow: var(--shadow-secondary);
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, calc(var(--space-xl) * 10)), 1fr)
+  );
+  gap: var(--space-lg);
+}
+
+.uploadPlaceholder {
+  display: grid;
+  place-items: center;
+  min-height: calc(var(--space-xl) * 8);
+  padding: var(--space-xl);
+  border: thin dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.uploadPlaceholder :global(.ant-typography) {
+  margin-bottom: var(--space-sm);
+}
+
+.boundaryList {
+  display: grid;
+  gap: var(--space-md);
+}
