@@ -11,14 +11,15 @@ FeedbackOS 是面向 5～50 人 SaaS 与 AI 产品团队的反馈决策工作台
 
 > Early development：项目尚未达到可用 MVP，请勿用于处理真实客户数据。
 
-当前正在实施 OpenSpec 变更 `build-week-two-import-foundation`，已完成 5/35 个任务：
+当前正在实施 OpenSpec 变更 `build-week-two-import-foundation`，已完成 6/35 个任务：
 
 - 已核验并锁定基础依赖版本。
 - 已初始化 Next.js、FastAPI 和共享契约工作区。
 - 已配置 PostgreSQL 与 Garage 本地开发服务。
 - 已建立分层配置、生产密钥校验、Alembic 骨架和统一命令。
 - 已建立 Next.js 与 FastAPI 健康检查及 Web 同源 `/api` 代理。
-- 下一步是将权威设计 token 映射为项目内浅色/深色主题。
+- 已将权威设计 token 映射为项目内浅色/深色 Ant Design 主题和语义 CSS 变量。
+- 下一步是搭建认证页、工作空间/项目壳层和项目导入页的路由骨架。
 
 用户访谈、真实样本和付费意愿验证仍未完成。工程进度不代表产品需求已经得到验证。
 
