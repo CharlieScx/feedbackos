@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/design-tokens.schema.json",
+  "title": "设计系统 token 快照（Agent 注入）",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "lightToken",
+    "darkToken",
+    "borderRadius",
+    "padding",
+    "margin",
+    "fontSize",
+    "heading"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "lightToken": { "$ref": "#/$defs/tokenMap" },
+    "darkToken": { "$ref": "#/$defs/tokenMap" },
+    "borderRadius": { "$ref": "#/$defs/numberMap" },
+    "padding": { "$ref": "#/$defs/numberMap" },
+    "margin": { "$ref": "#/$defs/numberMap" },
+    "fontSize": { "$ref": "#/$defs/numberMap" },
+    "heading": { "$ref": "#/$defs/numberMap" }
+  },
+  "$defs": {
+    "tokenMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string" }
+    },
+    "numberMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "number" }
+    }
+  }
+}
