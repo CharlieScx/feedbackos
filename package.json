@@ -24,7 +24,7 @@
     "typecheck:api": "uv run --project apps/api mypy --config-file apps/api/pyproject.toml apps/api/src",
     "typecheck:web": "pnpm --filter @feedbackos/web typecheck",
     "test": "pnpm run test:api && pnpm run test:web",
-    "test:api": "uv run --project apps/api pytest -c apps/api/pyproject.toml || test $? -eq 5",
+    "test:api": "test ! -d tests/api || uv run --project apps/api pytest -c apps/api/pyproject.toml tests/api",
     "test:web": "pnpm --filter @feedbackos/web test"
   }
 }

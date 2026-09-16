@@ -6,12 +6,8 @@ playwright-report/
 test-results/
 *.tsbuildinfo
 
-# Tests are local-only and must not be committed
-**/*.test.*
-**/*.spec.*
-**/tests/
-**/test_*.py
-**/*_test.py
+# Tests are local-only and live in one repository-level directory
+/tests/
 
 # Python
 .venv/
