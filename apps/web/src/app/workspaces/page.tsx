@@ -5,17 +5,17 @@ import { Alert, Button, Card, Tag, Typography } from "antd";
 import { AppShell } from "@/components/app-shell/app-shell";
 import { appRoutes } from "@/config/routes";
 
-import styles from "./page.module.css";
-
 const { Paragraph, Title } = Typography;
 
 export default function WorkspacesPage() {
   return (
     <AppShell activeSection="workspaces">
-      <div className={styles.pageHeader}>
-        <div>
-          <Title level={1}>工作空间</Title>
-          <Paragraph type="secondary">
+      <div className="flex flex-wrap items-center justify-between gap-md">
+        <div className="space-y-xs">
+          <Title className="!m-none" level={1}>
+            工作空间
+          </Title>
+          <Paragraph className="!m-none" type="secondary">
             选择一个项目，继续进入反馈文件导入流程。
           </Paragraph>
         </div>
@@ -25,7 +25,7 @@ export default function WorkspacesPage() {
       </div>
 
       <Alert
-        className={styles.notice}
+        className="mb-xl mt-lg"
         showIcon
         type="info"
         title="这里展示的是路由和租户壳层"
@@ -33,14 +33,14 @@ export default function WorkspacesPage() {
       />
 
       <section aria-labelledby="workspace-heading">
-        <div className={styles.sectionHeading}>
-          <Title id="workspace-heading" level={2}>
+        <div className="mb-md flex flex-wrap items-center justify-between gap-md">
+          <Title className="!m-none" id="workspace-heading" level={2}>
             示例工作空间
           </Title>
           <Tag color="success">界面可浏览</Tag>
         </div>
 
-        <div className={styles.projectGrid}>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,calc(var(--fo-padding-xl)*10)),1fr))] gap-lg">
           <Card title="产品体验团队" extra={<Tag>Owner</Tag>}>
             <Title level={3}>客服反馈项目</Title>
             <Paragraph type="secondary">

@@ -41,7 +41,7 @@ FeedbackOS 是面向 5～50 人 SaaS 与 AI 产品团队的反馈决策工作台
 
 ## 技术栈
 
-- Web：Next.js、React、TypeScript、Ant Design。
+- Web：Next.js、React、TypeScript、Ant Design、Tailwind CSS。
 - API：FastAPI、Pydantic、SQLAlchemy、Alembic。
 - 数据库：PostgreSQL；后续使用 pgvector 保存语义向量。
 - 对象存储：本地和 CI 使用 Garage，测试与生产计划接入阿里云 OSS。
@@ -113,6 +113,8 @@ pnpm infra:down     # 停止本地基础设施
 - 一个提交只表达一个清晰变更；实现、测试或迁移较大时可拆成多个原子提交。
 - 合并前运行与改动相称的 Lint、类型检查、测试和构建。
 - 暂不维护长期 `dev` 分支；出现共享测试环境或多人并行集成需求时再引入。
+
+页面布局默认使用映射到项目主题变量的 Tailwind 语义工具类；Ant Design 继续负责标准组件与主题算法。CSS Modules 只在复杂选择器、动画或第三方样式覆盖等例外场景使用。
 
 ## 项目文档
 

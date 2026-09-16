@@ -4,25 +4,31 @@ import { Alert, Button, Form, Input, Typography } from "antd";
 
 import { appRoutes } from "@/config/routes";
 
-import styles from "./page.module.css";
-
 const { Paragraph, Text, Title } = Typography;
 
 export default function LoginPage() {
   return (
-    <main className={styles.page}>
-      <section className={styles.card} aria-labelledby="login-title">
-        <div className={styles.brand}>
-          <span className={styles.brandMark} aria-hidden="true" />
+    <main className="grid min-h-dvh place-items-center bg-canvas p-page">
+      <section
+        className="w-full max-w-[calc(var(--fo-padding-xl)*14)] rounded-panel bg-layout p-page shadow-panel"
+        aria-labelledby="login-title"
+      >
+        <div className="flex items-center gap-sm">
+          <span
+            className="h-lg w-lg rounded-mark bg-brand"
+            aria-hidden="true"
+          />
           <Text strong>FeedbackOS</Text>
         </div>
 
-        <div className={styles.intro}>
-          <Text type="secondary">反馈决策工作台</Text>
-          <Title id="login-title" level={1}>
+        <div className="mt-lg space-y-xs">
+          <Text className="block" type="secondary">
+            反馈决策工作台
+          </Text>
+          <Title className="!m-none" id="login-title" level={1}>
             登录你的工作空间
           </Title>
-          <Paragraph type="secondary">
+          <Paragraph className="!m-none" type="secondary">
             从原始反馈证据出发，建立可追溯的产品决策。
           </Paragraph>
         </div>
@@ -34,7 +40,7 @@ export default function LoginPage() {
           description="真实注册、登录和会话恢复将在后续认证任务中接入。"
         />
 
-        <Form className={styles.form} layout="vertical" requiredMark={false}>
+        <Form className="mt-lg" layout="vertical" requiredMark={false}>
           <Form.Item label="邮箱" name="email">
             <Input
               autoComplete="email"
@@ -53,7 +59,7 @@ export default function LoginPage() {
           </Button>
         </Form>
 
-        <Paragraph className={styles.footer} type="secondary">
+        <Paragraph className="!mb-none mt-lg text-center" type="secondary">
           注册功能将在后续认证任务中接入。
         </Paragraph>
       </section>

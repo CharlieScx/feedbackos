@@ -45,4 +45,44 @@ describe("theme source contract", () => {
       expect(readFileSync(path, "utf8"), path).not.toMatch(literalColor);
     }
   });
+
+  it("maps semantic Tailwind utilities to runtime theme tokens", () => {
+    const globalStyles = readFileSync(
+      join(sourceDirectory, "app", "globals.css"),
+      "utf8",
+    );
+
+    expect(globalStyles).toContain('@import "tailwindcss"');
+    expect(globalStyles).toContain("@theme inline");
+    expect(globalStyles).toContain(
+      "--color-canvas: var(--fo-color-bg-base)",
+    );
+    expect(globalStyles).toContain("--spacing-page: var(--fo-padding-xl)");
+    expect(globalStyles).toContain(
+      "--radius-panel: var(--fo-border-radius-lg)",
+    );
+  });
+
+  it("keeps the migrated UI free from CSS Modules", () => {
+    const migratedSources = [
+      join(sourceDirectory, "app", "login", "page.tsx"),
+      join(sourceDirectory, "app", "workspaces", "page.tsx"),
+      join(
+        sourceDirectory,
+        "app",
+        "workspaces",
+        "[workspaceId]",
+        "projects",
+        "[projectId]",
+        "imports",
+        "new",
+        "page.tsx",
+      ),
+      join(sourceDirectory, "components", "app-shell", "app-shell.tsx"),
+    ];
+
+    for (const path of migratedSources) {
+      expect(readFileSync(path, "utf8"), path).not.toContain(".module.css");
+    }
+  });
 });

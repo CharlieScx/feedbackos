@@ -1,3 +1,45 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-*: initial;
+  --color-canvas: var(--fo-color-bg-base);
+  --color-layout: var(--fo-color-bg-layout);
+  --color-surface: var(--fo-color-bg-container);
+  --color-content: var(--fo-color-text);
+  --color-muted: var(--fo-color-text-secondary);
+  --color-brand: var(--fo-color-primary);
+  --color-brand-soft: var(--fo-color-primary-bg);
+  --color-border-default: var(--fo-color-border);
+
+  --spacing-*: initial;
+  --spacing-none: 0;
+  --spacing-xs: var(--fo-padding-xs);
+  --spacing-sm: var(--fo-padding-sm);
+  --spacing-md: var(--fo-padding);
+  --spacing-lg: var(--fo-padding-lg);
+  --spacing-xl: var(--fo-padding-xl);
+  --spacing-page: var(--fo-padding-xl);
+
+  --radius-*: initial;
+  --radius-mark: var(--fo-border-radius-sm);
+  --radius-control: var(--fo-border-radius);
+  --radius-panel: var(--fo-border-radius-lg);
+
+  --shadow-*: initial;
+  --shadow-panel: var(--fo-box-shadow);
+  --shadow-header: var(--fo-box-shadow-secondary);
+
+  --text-*: initial;
+  --text-small: var(--fo-font-size-sm);
+  --text-body: var(--fo-font-size);
+  --text-large: var(--fo-font-size-lg);
+  --text-heading-1: var(--fo-heading1);
+  --text-heading-2: var(--fo-heading2);
+  --text-heading-3: var(--fo-heading3);
+  --text-heading-4: var(--fo-heading4);
+  --text-heading-5: var(--fo-heading5);
+}
+
 :root {
   color-scheme: light dark;
 }
