@@ -101,7 +101,7 @@ pnpm infra:status   # 查看基础设施状态
 pnpm db:migrate     # 执行数据库迁移
 pnpm lint           # API 与 Web Lint
 pnpm typecheck      # Python 与 TypeScript 类型检查
-pnpm test           # 运行本地未跟踪的 API 与 Web 测试（允许无测试）
+pnpm test           # 运行根目录 tests/ 下的本地测试（允许无测试）
 pnpm build:web      # Next.js 生产构建
 pnpm infra:down     # 停止本地基础设施
 ```
@@ -113,7 +113,7 @@ pnpm infra:down     # 停止本地基础设施
 - 一个提交只表达一个清晰变更；实现、测试或迁移较大时可拆成多个原子提交。
 - 合并前运行与改动相称的 Lint、类型检查、测试和构建。
 - 暂不维护长期 `dev` 分支；出现共享测试环境或多人并行集成需求时再引入。
-- 测试文件仅在本地使用并由 Git 忽略，不提交到仓库；类型检查、Lint 和生产构建仍是提交前的固定门禁。
+- 测试文件统一保留在仓库根目录 `tests/` 下并由 Git 忽略，不与业务逻辑代码混放，也不提交到仓库；类型检查、Lint 和生产构建仍是提交前的固定门禁。
 
 页面布局默认使用映射到项目主题变量的 Tailwind 语义工具类；Ant Design 继续负责标准组件与主题算法。CSS Modules 只在复杂选择器、动画或第三方样式覆盖等例外场景使用。
 
