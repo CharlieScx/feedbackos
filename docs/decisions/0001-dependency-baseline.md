@@ -30,6 +30,8 @@
 | React / React DOM | 19.3.0 | 与当前 Next.js stable 的 peer 范围一致 | [react on npm](https://www.npmjs.com/package/react) |
 | TypeScript | 6.0.3 | 已核验 TypeScript 7.0.2 为 npm stable，但 Next.js 16.3.4 携带的 `typescript-eslint` 8.70.0 明确不支持 TS 7；因此固定当前可完成类型检查、Lint 和生产构建的最新 TS 6 稳定版 | [typescript on npm](https://www.npmjs.com/package/typescript) |
 | Ant Design | 6.6.3 | 当前 npm stable，统一通过 `ConfigProvider` 消费项目 token | [antd on npm](https://www.npmjs.com/package/antd) |
+| openapi-typescript | 7.13.0 | 从 FastAPI 的 OpenAPI JSON 生成无运行时代码的 TypeScript 类型 | [openapi-typescript on npm](https://www.npmjs.com/package/openapi-typescript) |
+| openapi-fetch | 0.17.0 | 以生成的 `paths` 类型约束同源 `/api` 请求，不再手写重复 DTO | [openapi-fetch on npm](https://www.npmjs.com/package/openapi-fetch) |
 
 ## API 与数据直接依赖
 

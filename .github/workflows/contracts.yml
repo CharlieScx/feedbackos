@@ -1,0 +1,39 @@
+name: Contract drift
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js and pnpm
+        uses: pnpm/setup@v1
+        with:
+          version: 11.19.0
+          runtime: node@24.21.0
+          cache: true
+
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          python-version: 3.13.12
+          enable-cache: true
+
+      - name: Install JavaScript dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check OpenAPI contract drift
+        run: pnpm contracts:check
+
+      - name: Type-check generated contracts
+        run: pnpm typecheck:contracts
