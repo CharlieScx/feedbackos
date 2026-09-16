@@ -5,8 +5,6 @@ import { useParams } from "next/navigation";
 
 import { AppShell } from "@/components/app-shell/app-shell";
 
-import styles from "./page.module.css";
-
 const { Paragraph, Text, Title } = Typography;
 
 export default function ProjectImportPage() {
@@ -23,14 +21,16 @@ export default function ProjectImportPage() {
       projectId={projectId}
       projectName="客服反馈项目"
     >
-      <div className={styles.pageHeader}>
+      <div className="flex flex-wrap items-center justify-between gap-md">
         <div>
-          <div className={styles.eyebrow}>
+          <div className="mb-xs flex flex-wrap items-center gap-xs">
             <Tag color="processing">待上传</Tag>
             <Text type="secondary">项目导入</Text>
           </div>
-          <Title level={1}>导入反馈文件</Title>
-          <Paragraph type="secondary">
+          <Title className="!mb-xs" level={1}>
+            导入反馈文件
+          </Title>
+          <Paragraph className="!mb-xs" type="secondary">
             先上传文件，再检查有限预览，最后确认字段映射。
           </Paragraph>
         </div>
@@ -38,7 +38,7 @@ export default function ProjectImportPage() {
       </div>
 
       <Steps
-        className={styles.steps}
+        className="my-xl rounded-panel bg-layout p-lg shadow-header"
         current={0}
         responsive
         items={[
@@ -48,11 +48,13 @@ export default function ProjectImportPage() {
         ]}
       />
 
-      <div className={styles.contentGrid}>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,calc(var(--fo-padding-xl)*10)),1fr))] gap-lg">
         <Card title="上传文件骨架">
-          <div className={styles.uploadPlaceholder}>
-            <Title level={3}>拖入反馈文件或从设备选择</Title>
-            <Paragraph type="secondary">
+          <div className="grid min-h-[calc(var(--fo-padding-xl)*8)] place-items-center rounded-panel border border-dashed border-border-default bg-surface p-xl text-center">
+            <Title className="!mb-sm" level={3}>
+              拖入反馈文件或从设备选择
+            </Title>
+            <Paragraph className="!mb-sm" type="secondary">
               文件类型、大小限制和真实上传进度将在 5.1 从 API 获取。
             </Paragraph>
             <Button type="primary" disabled>
@@ -62,7 +64,7 @@ export default function ProjectImportPage() {
         </Card>
 
         <Card title="本轮边界">
-          <div className={styles.boundaryList}>
+          <div className="grid gap-md">
             <Alert
               showIcon
               type="info"
