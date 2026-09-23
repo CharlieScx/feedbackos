@@ -25,8 +25,34 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** HealthResponse */
-        HealthResponse: {
+        /**
+         * ErrorCode
+         * @enum {string}
+         */
+        ErrorCode: "authentication_failed" | "access_denied" | "resource_not_found" | "request_invalid" | "file_invalid" | "conflict" | "idempotency_conflict" | "retryable_failure" | "internal_error";
+        /** ErrorDetail */
+        ErrorDetail: {
+            code: components["schemas"]["ErrorCode"];
+            /** Field Errors */
+            field_errors: components["schemas"]["FieldError"][];
+            /** Message */
+            message: string;
+            /** Retryable */
+            retryable: boolean;
+        };
+        /** ErrorResponse */
+        ErrorResponse: {
+            error: components["schemas"]["ErrorDetail"];
+        };
+        /** FieldError */
+        FieldError: {
+            /** Code */
+            code: string;
+            /** Field */
+            field: string;
+        };
+        /** HealthData */
+        HealthData: {
             /**
              * Service
              * @default feedbackos-api
@@ -39,6 +65,27 @@ export interface components {
              * @constant
              */
             status: "ok";
+        };
+        /** HealthResponse */
+        HealthResponse: {
+            data: components["schemas"]["HealthData"];
+        };
+        /** PaginatedResponse */
+        PaginatedResponse: {
+            /** Data */
+            data: unknown[];
+            pagination: components["schemas"]["PaginationMeta"];
+        };
+        /** PaginationMeta */
+        PaginationMeta: {
+            /** Page */
+            page: number;
+            /** Page Size */
+            page_size: number;
+            /** Total */
+            total: number;
+            /** Total Pages */
+            total_pages: number;
         };
     };
     responses: never;
@@ -65,6 +112,69 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HealthResponse"];
+                };
+            };
+            /** @description 认证失败 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 无权访问 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在或不可见 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源或幂等键冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 请求或文件无效 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未预期的安全错误响应 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 可重试的临时失败 */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
         };
