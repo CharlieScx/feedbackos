@@ -15,7 +15,7 @@
 
 ## 3. 实现数据模型、会话与租户边界
 
-- [ ] 3.1 实现数据库连接、事务边界和 `User`、`Session`、`Workspace`、`Member`、`Project`、`DataSource`、`StoredFile`、`ImportBatch`、`FeedbackItem` 模型，并通过模型测试验证租户外键、唯一约束和状态枚举
+- [x] 3.1 实现数据库连接、事务边界和 `User`、`Session`、`Workspace`、`Member`、`Project`、`DataSource`、`StoredFile`、`ImportBatch`、`FeedbackItem` 模型，并通过模型测试验证租户外键、唯一约束和状态枚举
 - [ ] 3.2 创建首个 Alembic 迁移并增加迁移测试，验证空 PostgreSQL 可升级到最新、降级后可再次升级，且不产生无法归属工作空间的项目或批次记录
 - [ ] 3.3 实现邮箱规范化、密码规则、Argon2id 哈希、不透明会话签发/哈希/过期/撤销服务，并通过单元测试验证重复邮箱、错误密码、过期会话和退出失效
 - [ ] 3.4 实现注册、登录、当前用户和退出 API，配置 HttpOnly/SameSite/Secure Cookie 与修改请求 Origin 校验，并通过 API 测试验证凭据不进入响应、日志或前端脚本
