@@ -2,6 +2,7 @@ from logging.config import fileConfig
 
 from alembic import context
 from feedbackos_api.config import get_settings
+from feedbackos_api.models import Base
 from sqlalchemy import engine_from_config, pool
 
 config = context.config
@@ -18,7 +19,7 @@ config.set_main_option(
     "sqlalchemy.url",
     settings.database_url.get_secret_value().replace("%", "%%"),
 )
-target_metadata = None
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
@@ -38,6 +39,7 @@ def run_migrations_online() -> None:
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
+        hide_parameters=True,
     )
 
     with connectable.connect() as connection:
