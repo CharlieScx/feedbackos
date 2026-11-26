@@ -1,6 +1,35 @@
 # 数据库模型与事务边界
 
-`apps/api/src/feedbackos_api/models.py` 定义第二周的九张表；生产建表由后续 3.2 的 Alembic 迁移负责，应用启动不会调用 `create_all()`。
+`apps/api/src/feedbackos_api/models.py` 定义第二周的九张表；建表由 Alembic 迁移负责，应用启动不会调用 `create_all()`。
+
+## 首个迁移
+
+`apps/api/migrations/versions/0001_import_foundation.py` 固定保存九张表的列、索引、唯一约束、CHECK 和复合外键，不导入当前 ORM 模型。今后模型变更应新增迁移，避免改写已经执行过的历史版本。
+
+在仓库根目录执行：
+
+```bash
+docker compose up -d --wait postgres
+pnpm db:migrate
+pnpm db:current
+pnpm db:check
+```
+
+连接仍来自 `FEEDBACKOS_DATABASE_URL`，未设置时使用本地开发库。`db:current` 应显示 `0001_import_foundation (head)`；`db:check` 会在结构与模型不一致时失败，不自动修复数据库。Alembic 不比较任意 CHECK 表达式，因此修改状态枚举或 CHECK 时仍须显式编写迁移并验证约束。
+
+需要审阅 SQL 而不执行时：
+
+```bash
+uv run --project apps/api alembic -c apps/api/alembic.ini upgrade head --sql
+```
+
+`downgrade base` 会删除本迁移创建的全部业务表及其数据，重新升级只恢复结构，不恢复被删数据。仅在确认目标是可丢弃的数据库，或已制定备份恢复方案后执行：
+
+```bash
+uv run --project apps/api alembic -c apps/api/alembic.ini downgrade base
+```
+
+本地 `tests/api/test_migrations.py` 自动创建随机命名的独立临时数据库，验证空库升级、重复升级、回滚后再次升级、模型一致性和租户约束，结束后只删除本次临时库。测试脚本不提交到 Git。运行账号需要本地 PostgreSQL 的建库权限。
 
 ## 归属与约束
 

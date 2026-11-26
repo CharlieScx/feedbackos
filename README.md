@@ -99,6 +99,8 @@ pnpm dev
 pnpm infra:up       # 启动 PostgreSQL 与 Garage 并等待健康检查
 pnpm infra:status   # 查看基础设施状态
 pnpm db:migrate     # 执行数据库迁移
+pnpm db:current     # 查看当前数据库迁移版本
+pnpm db:check       # 检查数据库是否与当前模型一致（先执行迁移）
 pnpm contracts:generate # 从 FastAPI OpenAPI 生成 TypeScript 契约
 pnpm contracts:check    # 检查已提交契约是否与 FastAPI 漂移
 pnpm lint           # API 与 Web Lint
