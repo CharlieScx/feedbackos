@@ -3,6 +3,7 @@ from typing import Any, Literal, cast
 from fastapi import FastAPI, Response
 from pydantic import BaseModel
 
+from feedbackos_api.auth_routes import router as auth_router
 from feedbackos_api.config import get_settings
 from feedbackos_api.contracts import (
     API_ERROR_RESPONSES,
@@ -29,6 +30,7 @@ app = FeedbackOSApp(
     responses=API_ERROR_RESPONSES,
 )
 install_exception_handlers(app)
+app.include_router(auth_router)
 
 
 class HealthData(BaseModel):

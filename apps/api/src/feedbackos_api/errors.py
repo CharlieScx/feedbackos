@@ -46,11 +46,13 @@ def error_response(
             field_errors=list(field_errors),
         ),
     )
-    return JSONResponse(
+    response = JSONResponse(
         status_code=status_code or definition.status_code,
         content=body.model_dump(mode="json"),
         headers=headers,
     )
+    response.headers["Cache-Control"] = "no-store"
+    return response
 
 
 def _field_errors(exc: RequestValidationError) -> list[FieldError]:
