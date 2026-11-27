@@ -1,39 +1,17 @@
-import logging
-from collections.abc import Callable, Coroutine
-from typing import Annotated, Any
+from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Request, Response, status
-from fastapi.exceptions import RequestValidationError
-from fastapi.routing import APIRoute
 from pydantic import BaseModel, SecretStr
-from starlette.exceptions import HTTPException
 
 from feedbackos_api.auth import AuthService, IssuedSession, UserIdentity, get_auth_service
 from feedbackos_api.config import Settings, get_settings
 from feedbackos_api.contracts import ErrorCode, SuccessResponse
-from feedbackos_api.errors import ApiException
-
-logger = logging.getLogger(__name__)
+from feedbackos_api.errors import ApiException, PrivateRoute
 
 
-class AuthRoute(APIRoute):
-    def get_route_handler(self) -> Callable[[Request], Coroutine[Any, Any, Response]]:
-        route_handler = super().get_route_handler()
-
-        async def handle(request: Request) -> Response:
-            try:
-                response = await route_handler(request)
-            except (ApiException, HTTPException, RequestValidationError):
-                raise
-            except Exception:
-                # Unexpected exceptions may include SQL diagnostics or submitted credentials.
-                logger.error("Authentication request failed")
-                raise ApiException(ErrorCode.INTERNAL_ERROR) from None
-            response.headers["Cache-Control"] = "no-store"
-            return response
-
-        return handle
+class AuthRoute(PrivateRoute):
+    failure_message = "Authentication request failed"
 
 
 router = APIRouter(prefix="/auth", tags=["auth"], route_class=AuthRoute)

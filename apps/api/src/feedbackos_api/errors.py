@@ -1,10 +1,13 @@
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
+import logging
+from collections.abc import Callable, Coroutine, Mapping, Sequence
+from typing import Any
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.routing import APIRoute
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from feedbackos_api.contracts import (
@@ -28,6 +31,27 @@ class ApiException(Exception):
         self.code = code
         self.field_errors = tuple(field_errors)
         self.headers = dict(headers) if headers else None
+
+
+class PrivateRoute(APIRoute):
+    failure_message = "Private API request failed"
+
+    def get_route_handler(self) -> Callable[[Request], Coroutine[Any, Any, Response]]:
+        route_handler = super().get_route_handler()
+
+        async def handle(request: Request) -> Response:
+            try:
+                response = await route_handler(request)
+            except (ApiException, StarletteHTTPException, RequestValidationError):
+                raise
+            except Exception:
+                # Unexpected errors may include SQL diagnostics or request data.
+                logging.getLogger(__name__).error(self.failure_message)
+                raise ApiException(ErrorCode.INTERNAL_ERROR) from None
+            response.headers["Cache-Control"] = "no-store"
+            return response
+
+        return handle
 
 
 def error_response(

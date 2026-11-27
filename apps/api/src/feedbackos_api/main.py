@@ -11,6 +11,7 @@ from feedbackos_api.contracts import (
     additional_openapi_schemas,
 )
 from feedbackos_api.errors import install_exception_handlers
+from feedbackos_api.workspace_routes import router as workspace_router
 
 settings = get_settings()
 
@@ -31,6 +32,7 @@ app = FeedbackOSApp(
 )
 install_exception_handlers(app)
 app.include_router(auth_router)
+app.include_router(workspace_router)
 
 
 class HealthData(BaseModel):
