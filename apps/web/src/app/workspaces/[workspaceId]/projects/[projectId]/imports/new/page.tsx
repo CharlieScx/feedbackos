@@ -2,8 +2,11 @@
 
 import { Alert, Button, Card, Steps, Tag, Typography } from "antd";
 import { useParams } from "next/navigation";
+import { useCallback } from "react";
 
 import { AppShell } from "@/components/app-shell/app-shell";
+import { LoadFailure, LoadingState, useLoad } from "@/components/request-state";
+import { getProject, getWorkspace } from "@/config/workspace-api";
 
 const { Paragraph, Text, Title } = Typography;
 
@@ -12,14 +15,29 @@ export default function ProjectImportPage() {
     workspaceId: string;
     projectId: string;
   }>();
+  const load = useCallback((signal: AbortSignal) => Promise.all([
+    getWorkspace(workspaceId, signal), getProject(workspaceId, projectId, signal),
+  ]), [workspaceId, projectId]);
+  const { state, retry } = useLoad(load);
+
+  if (state.status !== "ready") {
+    return (
+      <AppShell activeSection="import">
+        {state.status === "loading"
+          ? <LoadingState label="正在加载项目…" />
+          : <LoadFailure error={state.error} retry={retry} fallback="项目加载失败。" />}
+      </AppShell>
+    );
+  }
+  const [workspace, project] = state.data;
 
   return (
     <AppShell
       activeSection="import"
       workspaceId={workspaceId}
-      workspaceName="产品体验团队"
+      workspaceName={workspace.name}
       projectId={projectId}
-      projectName="客服反馈项目"
+      projectName={project.name}
     >
       <div className="flex flex-wrap items-center justify-between gap-md">
         <div>
