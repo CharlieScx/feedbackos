@@ -1,63 +1,44 @@
 "use client";
 
-import { Alert, Button, Card, Tag, Typography } from "antd";
+import { Card, Empty, Pagination, Tag, Typography } from "antd";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 
 import { AppShell } from "@/components/app-shell/app-shell";
+import { CreateResourceForm } from "@/components/create-resource-form";
+import { LoadFailure, LoadingState, useLoad } from "@/components/request-state";
 import { appRoutes } from "@/config/routes";
-
-const { Paragraph, Title } = Typography;
+import { createWorkspace, listWorkspaces } from "@/config/workspace-api";
 
 export default function WorkspacesPage() {
+  const router = useRouter();
+  const [page, setPage] = useState(1);
+  const load = useCallback((signal: AbortSignal) => listWorkspaces(page, signal), [page]);
+  const { state, retry } = useLoad(load);
+
   return (
     <AppShell activeSection="workspaces">
-      <div className="flex flex-wrap items-center justify-between gap-md">
-        <div className="space-y-xs">
-          <Title className="!m-none" level={1}>
-            工作空间
-          </Title>
-          <Paragraph className="!m-none" type="secondary">
-            选择一个项目，继续进入反馈文件导入流程。
-          </Paragraph>
-        </div>
-        <Button type="primary" disabled>
-          创建工作空间（后续接入）
-        </Button>
+      <Typography.Title level={1}>工作空间</Typography.Title>
+      <div className="grid gap-lg">
+        <CreateResourceForm resource="工作空间" create={async (name) => {
+          const workspace = await createWorkspace(name);
+          router.push(appRoutes.workspace(workspace.id));
+        }} />
+        {state.status === "loading" && <LoadingState label="正在加载工作空间…" />}
+        {state.status === "error" && <LoadFailure error={state.error} retry={retry} fallback="工作空间加载失败。" />}
+        {state.status === "ready" && <section className="grid gap-md" aria-labelledby="spaces-heading">
+          <Typography.Title id="spaces-heading" className="!m-none" level={2}>我的工作空间</Typography.Title>
+          {state.data.data.length === 0 ? <Empty description="暂无工作空间" /> : state.data.data.map((workspace) => (
+            <Card key={workspace.id} title={workspace.name}
+              extra={<Tag>{workspace.role === "owner" ? "所有者" : "成员"}</Tag>}>
+              <Link className="text-brand" href={appRoutes.workspace(workspace.id)}>打开工作空间</Link>
+            </Card>
+          ))}
+          <Pagination current={page} pageSize={state.data.pagination.page_size}
+            total={state.data.pagination.total} onChange={setPage} showSizeChanger={false} hideOnSinglePage />
+        </section>}
       </div>
-
-      <Alert
-        className="mb-xl mt-lg"
-        showIcon
-        type="info"
-        title="这里展示的是路由和租户壳层"
-        description="示例名称不代表真实数据；工作空间与项目 API 将在后续任务接入。"
-      />
-
-      <section aria-labelledby="workspace-heading">
-        <div className="mb-md flex flex-wrap items-center justify-between gap-md">
-          <Title className="!m-none" id="workspace-heading" level={2}>
-            示例工作空间
-          </Title>
-          <Tag color="success">界面可浏览</Tag>
-        </div>
-
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,calc(var(--fo-padding-xl)*10)),1fr))] gap-lg">
-          <Card title="产品体验团队" extra={<Tag>Owner</Tag>}>
-            <Title level={3}>客服反馈项目</Title>
-            <Paragraph type="secondary">
-              用于检查项目级导航、导入入口和后续租户边界。
-            </Paragraph>
-            <Button
-              type="primary"
-              href={appRoutes.projectImport(
-                "demo-workspace",
-                "demo-project",
-              )}
-            >
-              打开项目导入页
-            </Button>
-          </Card>
-        </div>
-      </section>
     </AppShell>
   );
 }

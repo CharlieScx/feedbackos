@@ -1,8 +1,14 @@
-import { Tag } from "antd";
+"use client";
+
+import { Alert, Button, Typography } from "antd";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { useAction } from "@/components/request-state";
+import { useSession } from "@/components/session-boundary";
 import { appRoutes } from "@/config/routes";
+import { failureMessage, logout } from "@/config/workspace-api";
 
 interface AppShellProps {
   children: ReactNode;
@@ -24,6 +30,9 @@ export function AppShell({
   projectId,
   projectName,
 }: Readonly<AppShellProps>) {
+  const router = useRouter();
+  const user = useSession();
+  const { pending, failure, run } = useAction();
   return (
     <div className="min-h-dvh bg-canvas">
       <header className="flex flex-wrap items-center gap-md bg-layout px-page py-md shadow-header">
@@ -65,13 +74,11 @@ export function AppShell({
         </nav>
 
         <div className="flex items-center gap-sm">
-          <Tag color="processing">开发骨架</Tag>
-          <Link
-            className="rounded-control text-muted no-underline"
-            href={appRoutes.login}
-          >
-            返回登录
-          </Link>
+          {user && <Typography.Text className="break-all" type="secondary">{user.email}</Typography.Text>}
+          <Button loading={pending} onClick={() => void run(async () => {
+            await logout();
+            router.replace(appRoutes.login);
+          })}>退出登录</Button>
         </div>
       </header>
 
@@ -80,7 +87,9 @@ export function AppShell({
           className="flex items-center gap-xs px-page py-sm text-small text-muted"
           aria-label="当前位置"
         >
-          <span>{workspaceName}</span>
+          {workspaceId && projectName
+            ? <Link className="text-brand" href={appRoutes.workspace(workspaceId)}>{workspaceName}</Link>
+            : <span>{workspaceName}</span>}
           {projectName ? (
             <>
               <span aria-hidden="true">/</span>
@@ -90,7 +99,11 @@ export function AppShell({
         </div>
       ) : null}
 
-      <main className="p-page">{children}</main>
+      <main className="p-page">
+        {failure && <Alert className="mb-md" showIcon type="error"
+          title={failureMessage(failure.error, "退出失败，请重试。")} />}
+        {children}
+      </main>
     </div>
   );
 }
